@@ -34,45 +34,59 @@ Print the answer as part of a message:
 The list of codes should be print out one per line in lexicographic order with no duplicates."""
 import re
 b_str = ""
-b_list = []
-list2 = []
-i = 0
+solution = []
 for call in calls:
     if '80' in call[0]:
         b_str += (str(call[1:2]))
 s = b_str
-'''ans = re.findall('\(([^)]+)', s)   
+ans = re.findall('\(([^)]+)', s)   
 list_set = set(ans) 
 unique_list = (list(list_set)) 
 for x in unique_list:
-    print(x)'''
-'''^^^ get all area codes inside parenthesis ^^^'''
+    solution.append(x)
+
+'''^^^ get all area codes inside parentheses ^^^'''
 half = b_str.split(']')
 better_half = str(half).split(' ') 
-print(b_str[0:200])
-print('******************************************************************************')
+
+''' ^^^ get input to put through every_other to grab first half of numbers for area codes ^^^ '''
 
 def every_other(listo):
     return listo[::2]
 
-''' ^^^ get first half of number that includes area code ^^^ '''
+''' ^^^ grab first half of number that includes area code ^^^ '''
 j = (every_other(better_half))
 
 no_p = []
 for blah in j:
     if "(" not in blah:
         no_p.append(blah)
-   
+final = []   
+''' ^^^ grab numbers that aren't in parentheses ^^^'''
 for meh in no_p:
     try:
         if int(meh[0]) > 6:
-            print(meh)
-        if int (meh[0]) < 6:
-            print(None)
+            final.append(meh.strip('"[\'').strip("'\","))
+        if int(meh[0]) < 6:
+            None
     except:
-      print(meh)
-      
-      
+        final.append(meh.strip('"[\'').strip("'\","))
+''' ^^^ grab numbers bigger than 6 or numbers enclosed in brackets ^^^'''
+ 
+unique_list2 = []     
+for x in final:
+    unique_list2.append(x[0:4])
+'''^^^ get first 4 characters ^^^'''
+list_set2 = set(unique_list2)
+unique_list2 = (list(list_set2))
+for x in unique_list2:
+    solution.append(x)
+'''^^^ get unique four character combinations ^^^'''
+sorted_solution = sorted(solution,key = int)
+solution_a = ('\n'.join(map(str, sorted_solution)))
+''' ^^^ sort the answer lexicographically ^^^ '''
+print ("The numbers called by people in Bangalore have codes: \n{}".format(solution_a))
+
 """Part B: What percentage of calls from fixed lines in Bangalore are made
 to fixed lines also in Bangalore? In other words, of all the calls made
 from a number starting with "(080)", what percentage of these calls
