@@ -35,8 +35,9 @@ The list of codes should be print out one per line in lexicographic order with n
 import re
 b_str = ""
 solution = []
+part2 = []
 for call in calls:
-    if '80' in call[0]:
+    if '080' in call[0]:
         b_str += (str(call[1:2]))
 s = b_str
 ans = re.findall('\(([^)]+)', s)   
@@ -44,21 +45,17 @@ list_set = set(ans)
 unique_list = (list(list_set)) 
 for x in unique_list:
     solution.append(x)
-
-'''^^^ get all area codes inside parentheses ^^^'''
+''' ^^^ get numbers inside area parentheses ^^^ '''
 half = b_str.split(']')
-better_half = str(half).split(' ') 
+better_half = []
 
-''' ^^^ get input to put through every_other to grab first half of numbers for area codes ^^^ '''
+for h in half:
+    better_half.append(h[0:8])
 
-def every_other(listo):
-    return listo[::2]
-
-''' ^^^ grab first half of number that includes area code ^^^ '''
-j = (every_other(better_half))
+''' ^^^ get first half where area code resides ^^^ '''
 
 no_p = []
-for blah in j:
+for blah in half:
     if "(" not in blah:
         no_p.append(blah)
 final = []   
@@ -66,23 +63,29 @@ final = []
 for meh in no_p:
     try:
         if int(meh[0]) > 6:
-            final.append(meh.strip('"[\'').strip("'\","))
+            final.append(meh.strip("['").strip("',"))
         if int(meh[0]) < 6:
             None
     except:
-        final.append(meh.strip('"[\'').strip("'\","))
+        final.append(meh.strip("['").strip("',"))
 ''' ^^^ grab numbers bigger than 6 or numbers enclosed in brackets ^^^'''
  
 unique_list2 = []     
 for x in final:
-    unique_list2.append(x[0:4])
+    try:
+        if int(x[0]):
+            unique_list2.append(x[0:4])
+    except:
+        None
 '''^^^ get first 4 characters ^^^'''
 list_set2 = set(unique_list2)
 unique_list2 = (list(list_set2))
 for x in unique_list2:
     solution.append(x)
 '''^^^ get unique four character combinations ^^^'''
+
 sorted_solution = sorted(solution,key = int)
+
 solution_a = ('\n'.join(map(str, sorted_solution)))
 ''' ^^^ sort the answer lexicographically ^^^ '''
 print ("The numbers called by people in Bangalore have codes: \n{}".format(solution_a))
@@ -97,3 +100,23 @@ Print the answer as a part of a message::
 to other fixed lines in Bangalore."
 The percentage should have 2 decimal digits
 """
+f_str = ""
+
+count = 0
+count2 = 0
+f_str = ""
+for call in calls:
+    if '080' in call[0]:
+        f_str += (str(call[1:2]))
+
+part2 = f_str.split(']')
+''' ^^^ grab all calls from bangalore and brackets to make splitting easy ^^^'''
+for x in half:
+    if '080' in x[0:6]:
+        count +=1
+    else:
+        count2 +=1
+''' count them calls '''
+part2_a = (count/(count+count2))
+b_answer = round(part2_a,2)
+print ("{} percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.".format(b_answer))
