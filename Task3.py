@@ -45,7 +45,7 @@ list_set = set(ans)
 unique_list = (list(list_set)) 
 for x in unique_list:
     solution.append(x)
-''' ^^^ get numbers inside area parentheses ^^^ '''
+''' ^^^ get numbers inside parentheses ^^^ '''
 half = b_str.split(']')
 better_half = []
 
@@ -100,17 +100,10 @@ Print the answer as a part of a message::
 to other fixed lines in Bangalore."
 The percentage should have 2 decimal digits
 """
-f_str = ""
 
+''' ^^^ half grabs all calls from bangalore and includes brackets to make splitting easy ^^^'''
 count = 0
 count2 = 0
-f_str = ""
-for call in calls:
-    if '080' in call[0]:
-        f_str += (str(call[1:2]))
-
-part2 = f_str.split(']')
-''' ^^^ grab all calls from bangalore and brackets to make splitting easy ^^^'''
 for x in half:
     if '080' in x[0:6]:
         count +=1
